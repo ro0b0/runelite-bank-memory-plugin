@@ -6,9 +6,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.annotations.SerializedName;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
+
+import lombok.Setter;
 import lombok.Value;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.ItemID;
@@ -28,7 +31,9 @@ public class BankSave {
     String dateTimeString;
     @SerializedName(value = "accountIdentifier", alternate = {"userName"}) String accountIdentifier;
     @Nullable String saveName;
-    ImmutableList<BankItem> itemData;
+
+    @Setter
+    List<BankItem> itemData;
 
     @VisibleForTesting
     public BankSave(
@@ -36,7 +41,7 @@ public class BankSave {
             String accountIdentifier,
             @Nullable String saveName,
             String dateTimeString,
-            ImmutableList<BankItem> itemData) {
+            List<BankItem> itemData) {
         id = ID_BASE + idIncrementer.incrementAndGet();
         this.worldType = worldType;
         this.accountIdentifier = accountIdentifier;

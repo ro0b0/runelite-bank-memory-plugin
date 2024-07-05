@@ -29,6 +29,7 @@ public class SavedBanksPanelController {
     @Inject private ClientThread clientThread;
     @Inject private ItemManager itemManager;
     @Inject private PluginDataStore dataStore;
+    @Inject BankMemoryConfig config;
 
     private BankSavesTopPanel topPanel;
     private ImageIcon casketIcon;
@@ -109,7 +110,15 @@ public class SavedBanksPanelController {
             AsyncBufferedImage icon = itemManager.getImage(i.getItemId(), i.getQuantity(), i.getQuantity() > 1);
             int geValue = itemManager.getItemPrice(i.getItemId()) * i.getQuantity();
             int haValue = ic.getHaPrice() * i.getQuantity();
-            items.add(new ItemListEntry(ic.getName(), i.getQuantity(), icon, geValue, haValue));
+            if (Math.abs(geValue) >= config.minValue()) {
+                items.add(new ItemListEntry(ic.getName(), i.getQuantity(), icon, geValue, haValue));
+            }
+        }
+        if (config.sortMode() == SortMode.VALUE) {
+            items.sort((item1, item2) -> {
+                // Sort by geValue in descending order, use absolute values because removed items are displayed as negatives
+                return Integer.compare(Math.abs(item2.getGeValue()), Math.abs(item1.getGeValue()));
+            });
         }
         SwingUtilities.invokeLater(() -> {
             workingToOpenBank.set(false);
