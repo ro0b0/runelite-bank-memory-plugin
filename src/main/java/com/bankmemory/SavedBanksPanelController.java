@@ -80,7 +80,7 @@ public class SavedBanksPanelController {
     }
 
     private void setPopupMenuActionOnBankView() {
-        topPanel.getBankViewPanel().setItemListPopupMenuAction(new CopyItemsToClipboardAction(clientThread, itemManager) {
+        topPanel.getBankViewPanel().setItemListPopupMenuAction(new CopyItemsToClipboardAction(clientThread, itemManager,config) {
             @Nullable
             @Override
             public BankSave getBankItemData() {
@@ -160,7 +160,7 @@ public class SavedBanksPanelController {
         public void copyBankSaveItemDataToClipboard(BanksListEntry save) {
             Optional<BankSave> existingSave = dataStore.getBankSaveWithId(save.getSaveId());
             if (existingSave.isPresent()) {
-                ClipboardActions.copyItemDataAsTsvToClipboardOnClientThread(clientThread, itemManager, existingSave.get().getItemData());
+                ClipboardActions.copyItemDataAsTsvToClipboardOnClientThread(clientThread, itemManager, config, existingSave.get().getItemData());
             } else {
                 log.error("Tried to copy CSV data to clipboard for missing bank save: {}", save);
             }

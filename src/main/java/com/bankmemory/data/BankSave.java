@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
-import lombok.Setter;
 import lombok.Value;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.ItemID;
@@ -32,8 +31,13 @@ public class BankSave {
     @SerializedName(value = "accountIdentifier", alternate = {"userName"}) String accountIdentifier;
     @Nullable String saveName;
 
-    @Setter
     List<BankItem> itemData;
+
+
+
+//    public List<BankItem> getItemData() {
+//
+//    }
 
     @VisibleForTesting
     public BankSave(
@@ -91,8 +95,7 @@ public class BankSave {
                 existingBank.worldType,
                 existingBank.accountIdentifier,
                 newName,
-                existingBank.dateTimeString,
-                existingBank.itemData);
+                existingBank.dateTimeString, existingBank.itemData);
     }
 
     public static BankSave cleanItemData(BankSave existingBank) {
@@ -106,8 +109,7 @@ public class BankSave {
                 existingBank.worldType,
                 existingBank.accountIdentifier,
                 existingBank.saveName,
-                existingBank.dateTimeString,
-                cleanItemData);
+                existingBank.dateTimeString, cleanItemData);
     }
 
     public static BankSave withNewAccountId(String newAccountId, BankSave existingBank) {
@@ -116,8 +118,7 @@ public class BankSave {
                 existingBank.worldType,
                 newAccountId,
                 existingBank.saveName,
-                existingBank.dateTimeString,
-                existingBank.itemData);
+                existingBank.dateTimeString, existingBank.itemData);
     }
 
     @Override

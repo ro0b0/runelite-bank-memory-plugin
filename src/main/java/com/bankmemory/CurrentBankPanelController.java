@@ -11,7 +11,6 @@ import com.bankmemory.data.PluginDataStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.swing.SwingUtilities;
@@ -54,7 +53,7 @@ public class CurrentBankPanelController {
     }
 
     private void setPopupMenuActionOnBankView() {
-        this.panel.setItemListPopupMenuAction(new CopyItemsToClipboardAction(clientThread, itemManager) {
+        this.panel.setItemListPopupMenuAction(new CopyItemsToClipboardAction(clientThread, itemManager, config) {
             @Nullable
             @Override
             public BankSave getBankItemData() {
@@ -73,11 +72,6 @@ public class CurrentBankPanelController {
             return;
         }
         updateDisplayForCurrentAccount();
-    }
-
-    private Integer getGeValue(BankItem item)
-    {
-        return itemManager.getItemPrice(item.getItemId()) * item.getQuantity();
     }
 
     private void updateDisplayForCurrentAccount() {
